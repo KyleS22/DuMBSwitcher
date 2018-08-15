@@ -3,8 +3,11 @@ from PIL import Image
 
 import re
 import subprocess
+import os
+import random
 
 # TODO: Allow slideshow
+
 
 def parse_screen_properties_to_resolution_and_position(resolutions):
     """
@@ -135,14 +138,59 @@ def create_background_image(screen_properties, left_image, right_image, out_file
 
     background.save(out_file)
 
+def slideshow():
+    pass
 
-def run(wallpaper_out, left_wallpaper=None, right_wallpaper=None, slideshow_dir=None):
+def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=False, image_to_switch=1):
+    """
+    Choose the next images to be displayed on each monitor
+    :param slideshow_dir: The directory to get the images from
+    :param image1: The current first image
+    :param image2: The current second image
+    :param switch_both: if True both monitor's wallpapers will be switched at the same time.  If False, only one will be
+    switched at a time
+    :param image_to_switch: The image to switch.  Only applies if switch_both is false.  1 indexed to match the variable names
+    for the images (image1, image2)
+    :return: (new_image1, new_image2) where both values of the tuple are paths to the chosen wallpapers
+    """
+
+    images = os.listdir(slideshow_dir)
+
+    new_image1 = None
+    new_image2 = None
+
+    if switch_both:
+
+        while new_image1 == image1 or new_image1 == image2:
+            new_image1 = random.choice(images)
+
+        while new_image2 == image1 or new_image2 == image2 or new_image2 == new_image1:
+            new_image2 = random.choice(images)
+
+    else:
+        if image_to_switch == 1:
+            while new_image1 == image1 or new_image1 == image2:
+                new_image1 = random.choice(images)
+
+        elif image_to_switch == 2:
+            while new_image2 == image2 or new_image2 == image1:
+                new_image2 = random.choice(images)
+
+    return new_image1, new_image2
+
+
+def run(wallpaper_out, slideshow=False, slideshow_duration=0, switch_both_monitors=False, left_wallpaper=None, right_wallpaper=None, slideshow_dir=None):
+
+    # TODO: Set gnome settings wallpaper to the output wallpaper and set to span monitors
 
     properties = get_screen_properties()
 
-    print(properties)
+    if slideshow:
+        pass
+        # TODO: start slideshow in thread
 
-    create_background_image(properties, left_wallpaper,
+    else:
+        create_background_image(properties, left_wallpaper,
                              right_wallpaper, wallpaper_out)
 
 
