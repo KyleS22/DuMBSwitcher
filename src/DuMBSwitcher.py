@@ -208,8 +208,6 @@ def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=Fals
 
 def run(wallpaper_out, slideshow=False, slideshow_duration=0, switch_both_monitors=False, left_wallpaper=None, right_wallpaper=None, slideshow_dir=None):
 
-    # TODO: Set gnome settings wallpaper to the output wallpaper and set to span monitors
-
     properties = get_screen_properties()
 
     if slideshow:
