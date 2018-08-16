@@ -5,8 +5,7 @@ import re
 import subprocess
 import os
 import random
-
-# TODO: Allow slideshow
+import time
 
 
 def parse_screen_properties_to_resolution_and_position(resolutions):
@@ -138,8 +137,36 @@ def create_background_image(screen_properties, left_image, right_image, out_file
 
     background.save(out_file)
 
-def slideshow():
-    pass
+def start_slideshow(slideshow_dir, switch_both, slideshow_duration, properties, wallpaper_out):
+    """
+    Start the slideshow by creating the image and then sleeping for the specified duration.
+    :param slideshow_dir: The directory to get wallpapers from
+    :param switch_both: If true, both monitors will be switched at the same time, rather than seperately.
+    :param slideshow_duration: The amount of time to wait before changing wallpapers.
+    :param properties: The properties of the screen
+    :param wallpaper_out: The place to save the wallpaper to
+    :return: None
+    """
+
+    image_to_switch = 1
+
+    new_image_1 = None
+    new_image_2 = None
+
+    while True:
+
+            new_image_1, new_image_2 = choose_next_images(slideshow_dir, new_image_1, new_image_2, switch_both,
+                                                          image_to_switch)
+
+            create_background_image(properties, new_image_1, new_image_2, wallpaper_out)
+
+            if not switch_both:
+                image_to_switch += 1
+
+                if image_to_switch >= 3:
+                    image_to_switch = 1
+
+            time.sleep(slideshow_duration)
 
 def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=False, image_to_switch=1):
     """
@@ -156,25 +183,25 @@ def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=Fals
 
     images = os.listdir(slideshow_dir)
 
-    new_image1 = None
-    new_image2 = None
+    new_image1 = image1
+    new_image2 = image2
 
-    if switch_both:
+    if switch_both or image2 is None:
 
         while new_image1 == image1 or new_image1 == image2:
-            new_image1 = random.choice(images)
+            new_image1 = os.path.join(slideshow_dir, random.choice(images))
 
         while new_image2 == image1 or new_image2 == image2 or new_image2 == new_image1:
-            new_image2 = random.choice(images)
+            new_image2 = os.path.join(slideshow_dir, random.choice(images))
 
     else:
         if image_to_switch == 1:
             while new_image1 == image1 or new_image1 == image2:
-                new_image1 = random.choice(images)
+                new_image1 = os.path.join(slideshow_dir, random.choice(images))
 
         elif image_to_switch == 2:
             while new_image2 == image2 or new_image2 == image1:
-                new_image2 = random.choice(images)
+                new_image2 = os.path.join(slideshow_dir, random.choice(images))
 
     return new_image1, new_image2
 
@@ -186,8 +213,7 @@ def run(wallpaper_out, slideshow=False, slideshow_duration=0, switch_both_monito
     properties = get_screen_properties()
 
     if slideshow:
-        pass
-        # TODO: start slideshow in thread
+        start_slideshow(slideshow_dir, switch_both_monitors, slideshow_duration, properties, wallpaper_out)
 
     else:
         create_background_image(properties, left_wallpaper,
@@ -201,6 +227,8 @@ if __name__ == "__main__":
     parser.add_argument("--left_wallpaper", help="The wallpaper to display on the left monitor")
     parser.add_argument("--right_wallpaper", help="The wallpaper to display on the right monitor")
     parser.add_argument("--slideshow_dir", help="The directory to get wallpapers from for a slideshow")
+    parser.add_argument("--switch_both", action="store_true", help="Switch both monitors at the same time")
+    parser.add_argument("--slideshow_duration", help="The amount of time before switching a wallpaper.")
 
 
     args = parser.parse_args()
@@ -210,11 +238,21 @@ if __name__ == "__main__":
             raise ValueError("Left or Right wallpaper was not specified correctly and no slideshow dir was provided.")
 
         else:
-
             run(args.wallpaper_out, left_wallpaper=args.left_wallpaper,
                 right_wallpaper=args.right_wallpaper)
 
     else:
-        run(args.wallpaper_out, slideshow_dir=args.slideshow_dir)
+
+        if not args.slideshow_duration:
+            raise ValueError("A duration must be given for a slideshow.")
+
+        if args.switch_both:
+
+            run(args.wallpaper_out, slideshow=True, slideshow_duration=int(args.slideshow_duration),
+                switch_both_monitors=True, slideshow_dir=args.slideshow_dir)
+
+        else:
+            run(args.wallpaper_out, slideshow=True, slideshow_duration=int(args.slideshow_duration),
+                switch_both_monitors=False, slideshow_dir=args.slideshow_dir)
 
 
