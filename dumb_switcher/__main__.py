@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+import dumb_switcher.controller as controller
+from dumb_switcher.controller import WALLPAPER_PATH
+import argparse
+import sys
+import dumb_switcher.DuMBSwitcher as ds
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Create a spanned wallpaper out of two images to fit on two monitors.")
+
+    parser.add_argument("--left_wallpaper", help="The wallpaper to display on the left monitor")
+    parser.add_argument("--right_wallpaper", help="The wallpaper to display on the right monitor")
+    parser.add_argument("--slideshow_dir", help="The directory to get wallpapers from for a slideshow")
+    parser.add_argument("--switch_both", action="store_true", help="Switch both monitors at the same time")
+    parser.add_argument("--slideshow_duration", help="The amount of time before switching a wallpaper.")
+    parser.add_argument("--enable_lock_screen", help="Show the current wallpaper on the lock screen as well.")
+    parser.add_argument("--stop_slideshow", action="store_true", help="Stop playing the slideshow on startup.")
+    parser.add_argument("--start_slideshow", action="store_true", help="Start the slideshow that is currently set to play.")
+
+    args = parser.parse_args()
+
+    if len(sys.argv) == 1:
+        parser.print_help()
+
+    if args.left_wallpaper and args.right_wallpaper:
+        controller.set_wallpaper_once(args.left_wallpaper, args.right_wallpaper)
+
+    if args.enable_lock_screen:
+        controller.set_lock_screen()
+
+    if args.stop_slideshow:
+        controller.create_or_remove_startup_process_for_slideshow(None, 0, False, remove=True)
+
+    switch_both = False
+
+    if args.switch_both:
+        switch_both = True
+
+    if args.slideshow_dir:
+
+        if args.slideshow_duration:
+
+            controller.create_or_remove_startup_process_for_slideshow(args.slideshow_dir, args.slideshow_duration, switch_both)
+
+
+    if args.start_slideshow:
+        ds.run(WALLPAPER_PATH, slideshow=True, slideshow_duration=args.slideshow_duration, switch_both_monitors=switch_both, slideshow_dir=args.slideshow_dir)

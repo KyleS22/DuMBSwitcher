@@ -211,7 +211,7 @@ def run(wallpaper_out, slideshow=False, slideshow_duration=0, switch_both_monito
     properties = get_screen_properties()
 
     if slideshow:
-        start_slideshow(slideshow_dir, switch_both_monitors, slideshow_duration, properties, wallpaper_out)
+        start_slideshow(slideshow_dir, switch_both_monitors, int(slideshow_duration), properties, wallpaper_out)
 
     else:
         create_background_image(properties, left_wallpaper,
