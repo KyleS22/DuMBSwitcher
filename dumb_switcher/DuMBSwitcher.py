@@ -218,7 +218,7 @@ def run(wallpaper_out, slideshow=False, slideshow_duration=0, switch_both_monito
                              right_wallpaper, wallpaper_out)
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Create a spanned wallpaper out of two images to fit on two monitors.")
 
     parser.add_argument("wallpaper_out", help="The path to store the resulting wallpaper at")
@@ -227,7 +227,6 @@ if __name__ == "__main__":
     parser.add_argument("--slideshow_dir", help="The directory to get wallpapers from for a slideshow")
     parser.add_argument("--switch_both", action="store_true", help="Switch both monitors at the same time")
     parser.add_argument("--slideshow_duration", help="The amount of time before switching a wallpaper.")
-
 
     args = parser.parse_args()
 
@@ -252,5 +251,9 @@ if __name__ == "__main__":
         else:
             run(args.wallpaper_out, slideshow=True, slideshow_duration=int(args.slideshow_duration),
                 switch_both_monitors=False, slideshow_dir=args.slideshow_dir)
+
+
+if __name__ == "__main__":
+    main()
 
 

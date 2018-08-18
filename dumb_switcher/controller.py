@@ -3,12 +3,16 @@ import os
 from PIL import Image
 import DuMBSwitcher as ds
 
-
+# Define storage dircetory for the wallpaper
 DUMBSWITCHER_DIR = os.path.expanduser("~/.dumbswitcher/")
 WALLPAPER_PATH = DUMBSWITCHER_DIR + "wallpaper.png"
 
 
 def create_wallpaper_file():
+    """
+    Create the wallpaper storage directory and file so it can be set
+    :return: None
+    """
     if not os.path.exists(DUMBSWITCHER_DIR):
         os.mkdir(DUMBSWITCHER_DIR)
 
@@ -16,8 +20,16 @@ def create_wallpaper_file():
         image = Image.new('RGB', (10, 10))
         image.save(WALLPAPER_PATH)
 
-def create_or_remove_startup_process_for_slideshow(wallpaper_dir, slideshow_duration, switch_both, remove=False):
 
+def create_or_remove_startup_process_for_slideshow(wallpaper_dir, slideshow_duration, switch_both, remove=False):
+    """
+    Create or remove the startup process for the slideshow so that it can start on boot
+    :param wallpaper_dir: The directory to get wallpapers from
+    :param slideshow_duration: The time between switching photos
+    :param switch_both: Whether or not to switch both monitors at the same time
+    :param remove: Remove the slideshow process so that it does not start on boot
+    :return: None
+    """
     set_wallpaper()
 
     startup_command_params = " --slideshow_dir=" + wallpaper_dir +\
@@ -32,9 +44,7 @@ def create_or_remove_startup_process_for_slideshow(wallpaper_dir, slideshow_dura
 
     name = "dumbswitcher"
 
-    # TODO: This command might not be right either
-
-    command = "dumb_switcher" + startup_command_params
+    command = "dumb-switcher" + startup_command_params
 
     autostart = "true"
 
@@ -61,14 +71,23 @@ def create_or_remove_startup_process_for_slideshow(wallpaper_dir, slideshow_dura
             out.write(l+"\n")
 
 
-
 def set_wallpaper_once(left_wallpaper, right_wallpaper):
-
+    """
+    Set the wallpaper without slideshow
+    :param left_wallpaper: The wallpaper for the left monitor
+    :param right_wallpaper: The wallpaper for the right monitor
+    :return: None
+    """
     set_wallpaper()
 
     ds.run(WALLPAPER_PATH, left_wallpaper=left_wallpaper, right_wallpaper=right_wallpaper)
 
+
 def set_lock_screen():
+    """
+    Set the lock screen to display the wallpaper
+    :return: None
+    """
     create_wallpaper_file()
 
     abs_wallpaper_path = os.path.abspath(WALLPAPER_PATH)
@@ -80,8 +99,12 @@ def set_lock_screen():
     process = 'gsettings set org.gnome.desktop.screensaver picture-options "spanned"'
     subprocess.call(process, shell=True)
 
-def set_wallpaper():
 
+def set_wallpaper():
+    """
+    Set the wallpaper for the system to the created wallpaper
+    :return:
+    """
     create_wallpaper_file()
 
     abs_wallpaper_path = os.path.abspath(WALLPAPER_PATH)
