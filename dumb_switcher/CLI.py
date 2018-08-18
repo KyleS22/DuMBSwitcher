@@ -58,8 +58,13 @@ def main():
                                                                       switch_both)
     # If the user wants to start the slideshow, start it
     if args.start_slideshow:
-        ds.run(WALLPAPER_PATH, slideshow=True, slideshow_duration=args.slideshow_duration,
-               switch_both_monitors=switch_both, slideshow_dir=args.slideshow_dir)
+        
+        if not args.slideshow_dir or not args.slideshow_duration:
+            print("Error: You must specify a slideshow directory and duration")
+        else:
+
+            ds.run(WALLPAPER_PATH, slideshow=True, slideshow_duration=args.slideshow_duration,
+                   switch_both_monitors=switch_both, slideshow_dir=args.slideshow_dir)
 
 
 if __name__ == "__main__":
