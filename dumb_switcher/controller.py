@@ -1,7 +1,7 @@
 import subprocess
 import os
 from PIL import Image
-import DuMBSwitcher as ds
+from dumb_switcher import DuMBSwitcher as ds
 
 # Define storage dircetory for the wallpaper
 DUMBSWITCHER_DIR = os.path.expanduser("~/.dumbswitcher/")

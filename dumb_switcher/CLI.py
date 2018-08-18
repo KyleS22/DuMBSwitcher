@@ -21,7 +21,8 @@ def main():
     parser.add_argument("--slideshow_dir", help="The directory to get wallpapers from for a slideshow")
     parser.add_argument("--switch_both", action="store_true", help="Switch both monitors at the same time")
     parser.add_argument("--slideshow_duration", help="The amount of time before switching a wallpaper.")
-    parser.add_argument("--enable_lock_screen", help="Show the current wallpaper on the lock screen as well.")
+    parser.add_argument("--enable_lock_screen", action="store_true",
+                        help="Show the current wallpaper on the lock screen as well.")
     parser.add_argument("--stop_slideshow", action="store_true", help="Stop playing the slideshow on startup.")
     parser.add_argument("--start_slideshow", action="store_true",
                         help="Start the slideshow that is currently set to play.")

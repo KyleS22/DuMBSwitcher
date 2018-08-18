@@ -34,6 +34,7 @@ def parse_screen_properties_to_resolution_and_position(resolutions):
 
     return parsed_resolutions
 
+
 def get_screen_properties():
     """
     Retreive the properties of the current screen using xrandr
@@ -75,6 +76,7 @@ def get_screen_properties():
     properties["resolutions"] = parse_screen_properties_to_resolution_and_position(resolutions)
 
     return properties
+
 
 def create_background_image(screen_properties, left_image, right_image, out_file):
     """
@@ -137,6 +139,7 @@ def create_background_image(screen_properties, left_image, right_image, out_file
 
     background.save(out_file)
 
+
 def start_slideshow(slideshow_dir, switch_both, slideshow_duration, properties, wallpaper_out):
     """
     Start the slideshow by creating the image and then sleeping for the specified duration.
@@ -167,6 +170,7 @@ def start_slideshow(slideshow_dir, switch_both, slideshow_duration, properties, 
                     image_to_switch = 1
 
             time.sleep(slideshow_duration)
+
 
 def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=False, image_to_switch=1):
     """
@@ -206,7 +210,8 @@ def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=Fals
     return new_image1, new_image2
 
 
-def run(wallpaper_out, slideshow=False, slideshow_duration=0, switch_both_monitors=False, left_wallpaper=None, right_wallpaper=None, slideshow_dir=None):
+def run(wallpaper_out, slideshow=False, slideshow_duration=0, switch_both_monitors=False, left_wallpaper=None,
+        right_wallpaper=None, slideshow_dir=None):
 
     properties = get_screen_properties()
 
