@@ -9,4 +9,4 @@
 
 Tests can be run with `pytest`
 
-Tests with coverage can be run with 'pytest --cov=dumb_switcher --cov-branch --cov-report term-missing'
+Tests with coverage can be run with `pytest --cov=dumb_switcher --cov-branch --cov-report term-missing`
