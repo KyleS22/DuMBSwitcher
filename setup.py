@@ -1,9 +1,9 @@
 from setuptools import setup
-
+import dumb_switcher.controller as controller
 
 setup(
     name='dumb_switcher',
-    version='0.1.0',
+    version=controller.get_version(),
     packages=['dumb_switcher'],
     entry_points = {
         'console_scripts': ['dumb-switcher=dumb_switcher.CLI:main'],

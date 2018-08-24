@@ -91,7 +91,6 @@ def create_background_image(screen_properties, left_image, right_image, out_file
     screen_width = screen_properties["screen_space"][0]
     screen_height = screen_properties["screen_space"][1]
 
-
     monitors = screen_properties["resolutions"]
 
     if len(monitors) > 2:
@@ -111,7 +110,6 @@ def create_background_image(screen_properties, left_image, right_image, out_file
         right_monitor = mon_1
     else:
         raise ValueError("Monitors are overlapping!")
-
 
     left_image = Image.open(left_image, 'r')
     right_image = Image.open(right_image, 'r')
@@ -186,6 +184,9 @@ def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=Fals
     """
 
     images = os.listdir(slideshow_dir)
+
+    if len(images) < 3:
+        raise Exception("Cannot create a slideshow from less than three images")
 
     new_image1 = image1
     new_image2 = image2

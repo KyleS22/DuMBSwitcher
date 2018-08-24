@@ -26,8 +26,13 @@ def main():
     parser.add_argument("--stop_slideshow", action="store_true", help="Stop playing the slideshow on startup.")
     parser.add_argument("--start_slideshow", action="store_true",
                         help="Start the slideshow that is currently set to play.")
+    parser.add_argument("--version", action="store_true", help="Display version info.")
 
     args = parser.parse_args()
+
+    if args.version:
+        print("DuMBSwitcher Version " + controller.get_version())
+        exit(0)
 
     # Display help if there are not enough arguments
     if len(sys.argv) == 1:
