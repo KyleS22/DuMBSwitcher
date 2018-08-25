@@ -5,15 +5,15 @@ import shutil
 
 import unittest
 from unittest import mock
-
+import dumb_switcher.VERSION_NUMBER as vn
 
 def test_get_version():
     """
     Test that the correct version string is returned
     :return:
     """
-    assert controller.get_version() == str(controller.VERSION_MAJOR) + "." + str(controller.VERSION_MINOR) + "." + \
-           str(controller.VERSION_PATCH)
+    assert controller.get_version() == str(vn.VERSION_MAJOR) + "." + str(vn.VERSION_MINOR) + "." + \
+           str(vn.VERSION_PATCH)
 
 
 def test_create_wallpaper_file():
