@@ -21,11 +21,15 @@ def test_create_wallpaper_file():
     Test that the proper config dirs are created
     :return:
     """
+
+    create_test_dirs()
+
     script_dir = os.path.dirname(__file__)
 
     remove_test_files("test_dumbswitcher_dir")
 
     controller.DUMBSWITCHER_DIR = os.path.join(script_dir, "test_dumbswitcher_dir/dumb_home/")
+    controller.WALLPAPER_PATH = os.path.join(controller.DUMBSWITCHER_DIR, "wallpaper.png")
 
     controller.create_wallpaper_file()
 
@@ -41,6 +45,9 @@ def test_create_or_remove_startup_process_for_slideshow():
     Test cases for createing the startup process for the slideshow
     :return:
     """
+
+    create_test_dirs()
+
     script_dir = os.path.dirname(__file__)
 
     home_dir = os.path.join(script_dir, "test_home")
@@ -109,6 +116,7 @@ def test_create_or_remove_startup_process_for_slideshow():
         assert contents == expected
 
     remove_test_files("test_home")
+    remove_test_files("test_dumbswitcher_dir")
 
     # end mock
     mock_env.stop()
@@ -119,14 +127,14 @@ def remove_test_files(test_dir):
     Helper function to remove generated files for testing
     :return: None
     """
+
+    create_test_dirs()
+
     script_dir = os.path.dirname(__file__)
     # out_file = os.path.join(script_dir, "test_images/test.png")
     # os.remove(out_file)
 
     for file in os.listdir(os.path.join(script_dir, test_dir)):
-
-        if file == "init":
-            continue
 
         file_path = os.path.join(script_dir, test_dir, file)
 
@@ -134,3 +142,20 @@ def remove_test_files(test_dir):
             shutil.rmtree(file_path)
         else:
             os.remove(file_path)
+
+
+def create_test_dirs():
+    """
+    Create test directories
+    :return:
+    """
+    script_dir = os.path.dirname(__file__)
+
+    test_dumbswitcher_dir = os.path.join(script_dir, "test_dumbswitcher_dir")
+    test_home = os.path.join(script_dir, "test_home")
+
+    if not os.path.exists(test_dumbswitcher_dir):
+        os.makedirs(test_dumbswitcher_dir)
+
+    if not os.path.exists(test_home):
+        os.makedirs(test_home)
