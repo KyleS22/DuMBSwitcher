@@ -1,18 +1,22 @@
 from setuptools import setup
-import dumb_switcher.controller as controller
+
+VERSION_MAJOR = 0
+VERSION_MINOR = 1
+VERSION_PATCH = 2
+
 
 setup(
     name='dumb_switcher',
-    version=controller.get_version(),
+    version=str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_PATCH),
     packages=['dumb_switcher'],
-    entry_points = {
+    entry_points={
         'console_scripts': ['dumb-switcher=dumb_switcher.CLI:main'],
     },
     description="Command line tool for setting dual monitor wallpapers on ubuntu gnome.",
-    install_requires = [
+    install_requires=[
         'Pillow',
     ],
-    setup_requires = [
+    setup_requires=[
         'Pillow',
     ]
 )
