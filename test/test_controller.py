@@ -126,4 +126,7 @@ def remove_test_files(test_dir):
     for file in os.listdir(os.path.join(script_dir, test_dir)):
         file_path = os.path.join(script_dir, test_dir, file)
 
-        shutil.rmtree(file_path)
+        if os.path.isdir(file_path):
+            shutil.rmtree(file_path)
+        else:
+            os.remove(file_path)
