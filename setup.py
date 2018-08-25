@@ -11,5 +11,8 @@ setup(
     description="Command line tool for setting dual monitor wallpapers on ubuntu gnome.",
     install_requires = [
         'Pillow',
+    ],
+    setup_requires = [
+        'Pillow',
     ]
 )
