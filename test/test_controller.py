@@ -124,6 +124,10 @@ def remove_test_files(test_dir):
     # os.remove(out_file)
 
     for file in os.listdir(os.path.join(script_dir, test_dir)):
+
+        if file == "init":
+            continue
+
         file_path = os.path.join(script_dir, test_dir, file)
 
         if os.path.isdir(file_path):
