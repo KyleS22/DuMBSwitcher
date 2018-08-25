@@ -29,6 +29,7 @@ def test_create_wallpaper_file():
     remove_test_files("test_dumbswitcher_dir")
 
     controller.DUMBSWITCHER_DIR = os.path.join(script_dir, "test_dumbswitcher_dir/dumb_home/")
+    controller.WALLPAPER_PATH = os.path.join(controller.DUMBSWITCHER_DIR, "wallpaper.png")
 
     controller.create_wallpaper_file()
 
@@ -115,6 +116,7 @@ def test_create_or_remove_startup_process_for_slideshow():
         assert contents == expected
 
     remove_test_files("test_home")
+    remove_test_files("test_dumbswitcher_dir")
 
     # end mock
     mock_env.stop()
@@ -141,7 +143,12 @@ def remove_test_files(test_dir):
         else:
             os.remove(file_path)
 
+
 def create_test_dirs():
+    """
+    Create test directories
+    :return:
+    """
     script_dir = os.path.dirname(__file__)
 
     test_dumbswitcher_dir = os.path.join(script_dir, "test_dumbswitcher_dir")
