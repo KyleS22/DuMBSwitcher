@@ -3,6 +3,9 @@ import pytest
 import os
 from PIL import Image
 
+import unittest
+from unittest import mock
+
 TEST_IMAGE_NUM = 0
 
 
@@ -62,7 +65,6 @@ def test_create_background_image(tmpdir):
 
     out_file = os.path.join(script_dir, "test_images/test.png")
 
-
     ds.create_background_image(screen_properties, left_image, right_image, out_file)
 
     assert os.path.exists(out_file)
@@ -70,8 +72,6 @@ def test_create_background_image(tmpdir):
     img = Image.open(out_file, 'r')
 
     assert img.size == (3286, 1335)
-
-
 
     remove_test_images()
 
@@ -117,6 +117,7 @@ def test_create_background_image(tmpdir):
     with pytest.raises(ValueError):
         ds.create_background_image(screen_properties, left_image, right_image, out_file)
 
+
 def test_choose_next_images():
     """
     Test cases for choosing a random next image
@@ -137,7 +138,6 @@ def test_choose_next_images():
     with pytest.raises(Exception):
         ds.choose_next_images(slideshow_dir, image1, image2, switch_both, image_to_switch)
 
-
     create_test_image(0)
 
     new_image_1, new_image_2 = ds.choose_next_images(slideshow_dir, image1, image2, switch_both, image_to_switch)
@@ -145,7 +145,8 @@ def test_choose_next_images():
     assert new_image_1 is not None
     assert new_image_2 is not None
 
-    new_image_1, new_image_2 = ds.choose_next_images(slideshow_dir, new_image_1, new_image_2, switch_both, image_to_switch)
+    new_image_1, new_image_2 = ds.choose_next_images(slideshow_dir, new_image_1, new_image_2, switch_both,
+                                                     image_to_switch)
 
     assert new_image_1 is not None
     assert new_image_2 is not None

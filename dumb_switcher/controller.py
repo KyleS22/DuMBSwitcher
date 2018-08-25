@@ -44,6 +44,8 @@ def create_or_remove_startup_process_for_slideshow(wallpaper_dir, slideshow_dura
 
     startup_command_params = ""
 
+    autostart = "true"
+
     if remove:
         autostart = "false"
 
@@ -51,8 +53,8 @@ def create_or_remove_startup_process_for_slideshow(wallpaper_dir, slideshow_dura
         startup_command_params = " --slideshow_dir=" + wallpaper_dir + " --slideshow_duration=" +\
                                  str(slideshow_duration) + " --start_slideshow"
 
-    if switch_both:
-        startup_command_params += " --swtich_both"
+    if switch_both and not remove:
+        startup_command_params += " --switch_both"
 
     # need python dumb_switcher.py + startup_command_params in startup proc list
 
@@ -61,8 +63,6 @@ def create_or_remove_startup_process_for_slideshow(wallpaper_dir, slideshow_dura
     name = "dumbswitcher"
 
     command = "dumb-switcher" + startup_command_params
-
-    autostart = "true"
 
     launcher = ["[Desktop Entry]", "Name=", "Exec=", "Type=Application", "X-GNOME-Autostart-enabled="]
     dr = home + "/.config/autostart/"
