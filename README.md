@@ -9,6 +9,7 @@ DuMBSwitcher is a command line tool for configuring wallpapers on multi monitor 
 
 # Installation
 You can install DuMBSwitcher by downloading the [latest release](https://github.com/KyleS22/DuMBSwitcher/releases/latest) tar file and running 
+
 `pip install DuMBSwitcher-x.x.x.tar.gz`
 
 
