@@ -1,13 +1,9 @@
 from setuptools import setup
-
-VERSION_MAJOR = 0
-VERSION_MINOR = 1
-VERSION_PATCH = 2
-
+import dumb_switcher.VERSION_NUMBER as vn
 
 setup(
     name='dumb_switcher',
-    version=str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_PATCH),
+    version=str(vn.VERSION_MAJOR) + "." + str(vn.VERSION_MINOR) + "." + str(vn.VERSION_PATCH),
     packages=['dumb_switcher'],
     entry_points={
         'console_scripts': ['dumb-switcher=dumb_switcher.CLI:main'],

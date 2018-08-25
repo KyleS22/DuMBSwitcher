@@ -2,11 +2,7 @@ import subprocess
 import os
 from PIL import Image
 from dumb_switcher import DuMBSwitcher as ds
-import setup
-
-VERSION_MAJOR = setup.VERSION_MAJOR
-VERSION_MINOR = setup.VERSION_MINOR
-VERSION_PATCH = setup.VERSION_PATCH
+import dumb_switcher.VERSION_NUMBER as vn
 
 # Define storage dircetory for the wallpaper
 DUMBSWITCHER_DIR = os.path.expanduser("~/.dumbswitcher/")
@@ -15,9 +11,9 @@ WALLPAPER_PATH = DUMBSWITCHER_DIR + "wallpaper.png"
 def get_version():
     """
     Get the version number
-    :return: A string containing the version number as VERSION_MAJOR.VERSION_MINOR.VERSION_PATCH
+    :return: A string containing the version number as vn.VERSION_MAJOR.vn.VERSION_MINOR.VERSION_PATCH
     """
-    return str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_PATCH)
+    return str(vn.VERSION_MAJOR) + "." + str(vn.VERSION_MINOR) + "." + str(vn.VERSION_PATCH)
 
 def create_wallpaper_file():
     """
