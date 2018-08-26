@@ -21,17 +21,17 @@ DuMBSwitcher works by creating one giant image made from two smaller images to f
 
 To set each monitor to one static wallpaper, use:
 
-`dumb-switcher --left_wallpaper=ABSOLUTE/PATH/TO/IMAGE/FOR/LEFT/MONITOR --right_wallpaper=ABSOLUTE/PATH/TO/IMAGE/FOR/RIGHT/MONITOR`
+`dumb-switcher --left_wallpaper=ABSOLUTE/PATH/TO/IMAGE --right_wallpaper=ABSOLUTE/PATH/TO/IMAGE`
 
 ### Set up a timed slideshow
 
 You can also set the background to switch between the images in a directory of images:
 
-`dumb-switcher --slideshow_dir=PATH/TO/DIR/WITH/IMAGES/ --slideshow_duration=TIME_IN_SECONDS_FOR_EACH_IMAGE`
+`dumb-switcher --slideshow_dir=PATH/TO/IMAGES/ --slideshow_duration=SECONDS_FOR_EACH_IMAGE`
 
 The above command will set the slideshow as a startup application, to start the slideshow now you can use:
 
-`dumb-switcher --slideshow_dir=PATH/TO/DIR/WITH/IMAGES/ --slideshow_duration=TIME_IN_SECONDS_FOR_EACH_IMAGE --start_slideshow &`
+`dumb-switcher --slideshow_dir=PATH/TO/IMAGES/ --slideshow_duration=SECONDS_FOR_EACH_IMAGE --start_slideshow &`
 
 This will start a background process for the slideshow and add it to the startup applications list
 
@@ -41,7 +41,7 @@ By default, only one image will change at a time during a slideshow.  This means
 
 To disable this and have both images change at the same time, simply add the `--switch_both` option:
 
-`dumb-switcher --slideshow_dir=PATH/TO/DIR/WITH/IMAGES/ --slideshow_duration=TIME_IN_SECONDS_FOR_EACH_IMAGE --start_slideshow --switch_both &`
+`dumb-switcher --slideshow_dir=PATH/TO/IMAGES/ --slideshow_duration=SECONDS_FOR_EACH_IMAGE --start_slideshow --switch_both &`
 
 #### Stop the slideshow
 
@@ -49,6 +49,8 @@ To stop the slideshow, you can use `dumb-switcher --stop_slideshow`.  This will 
 
 ### Enable the lock screen to show the current background image
 
-You can also set the lock screen to mimic the desktop background using `dumb-switcher --enable_lock_screen`
+You can also set the lock screen to mimic the desktop background using
+
+ `dumb-switcher --enable_lock_screen`
 
 More details about usage and options can be found with `dumb-switcher -h`.
