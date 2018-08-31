@@ -6,7 +6,10 @@ import subprocess
 import os
 import random
 import time
+from dumb_switcher import controller
+import json
 
+USED_IMAGES_JSON = "used_images.json"
 
 def parse_screen_properties_to_resolution_and_position(resolutions):
     """
@@ -170,6 +173,37 @@ def start_slideshow(slideshow_dir, switch_both, slideshow_duration, properties, 
             time.sleep(slideshow_duration)
 
 
+def get_used_images_from_json():
+    """
+    Load the list of used background images
+    :return: A list of the used background images
+    """
+    try:
+        with open(os.path.join(controller.DUMBSWITCHER_DIR, USED_IMAGES_JSON), 'r') as f:
+            used_images = json.load(f)
+
+        return used_images["images"]
+    except FileNotFoundError:
+        save_used_images_to_json([])
+
+        with open(os.path.join(controller.DUMBSWITCHER_DIR, USED_IMAGES_JSON), 'r') as f:
+            used_images = json.load(f)
+
+        return used_images["images"]
+
+
+def save_used_images_to_json(used_images):
+    """
+    Save the list of used background images
+    :param used_images: A list of the used images
+    :return: None
+    """
+    with open(os.path.join(controller.DUMBSWITCHER_DIR, USED_IMAGES_JSON), 'w') as f:
+        json_string = {"images": used_images}
+        json.dump(json_string, f)
+
+
+
 def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=False, image_to_switch=1):
     """
     Choose the next images to be displayed on each monitor
@@ -184,6 +218,12 @@ def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=Fals
     """
 
     images = os.listdir(slideshow_dir)
+    used_images = get_used_images_from_json()
+
+    images = [image for image in images if image not in used_images]
+
+    if len(images) < 5:
+        used_images = []
 
     if len(images) < 3:
         raise Exception("Cannot create a slideshow from less than three images")
@@ -196,17 +236,27 @@ def choose_next_images(slideshow_dir, image1=None, image2=None, switch_both=Fals
         while new_image1 == image1 or new_image1 == image2:
             new_image1 = os.path.join(slideshow_dir, random.choice(images))
 
+        used_images.append(os.path.split(new_image1)[-1])
+
         while new_image2 == image1 or new_image2 == image2 or new_image2 == new_image1:
             new_image2 = os.path.join(slideshow_dir, random.choice(images))
+
+        used_images.append(os.path.split(new_image2)[-1])
 
     else:
         if image_to_switch == 1:
             while new_image1 == image1 or new_image1 == image2:
                 new_image1 = os.path.join(slideshow_dir, random.choice(images))
 
+            used_images.append(os.path.split(new_image1)[-1])
+
         elif image_to_switch == 2:
             while new_image2 == image2 or new_image2 == image1:
                 new_image2 = os.path.join(slideshow_dir, random.choice(images))
+
+            used_images.append(os.path.split(new_image2)[-1])
+
+    save_used_images_to_json(used_images)
 
     return new_image1, new_image2
 

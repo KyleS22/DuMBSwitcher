@@ -5,6 +5,7 @@ from PIL import Image
 
 import unittest
 from unittest import mock
+from dumb_switcher import controller
 
 TEST_IMAGE_NUM = 0
 
@@ -128,6 +129,15 @@ def test_choose_next_images():
 
     slideshow_dir = os.path.join(script_dir, "test_images")
 
+    home_dir = os.path.join(script_dir, "test_home")
+
+    mock_env = mock.patch.dict(os.environ, {"HOME": home_dir})
+
+    controller.DUMBSWITCHER_DIR = os.path.join(script_dir, "test_home/")
+    controller.WALLPAPER_PATH = os.path.join(controller.DUMBSWITCHER_DIR, "wallpaper.png")
+
+    mock_env.start()
+
     image1 = None
     image2 = None
 
@@ -139,11 +149,15 @@ def test_choose_next_images():
         ds.choose_next_images(slideshow_dir, image1, image2, switch_both, image_to_switch)
 
     create_test_image(0)
+    create_test_image(1)
 
     new_image_1, new_image_2 = ds.choose_next_images(slideshow_dir, image1, image2, switch_both, image_to_switch)
 
     assert new_image_1 is not None
     assert new_image_2 is not None
+
+    create_test_image(3)
+    create_test_image(4)
 
     new_image_1, new_image_2 = ds.choose_next_images(slideshow_dir, new_image_1, new_image_2, switch_both,
                                                      image_to_switch)
@@ -161,6 +175,7 @@ def test_choose_next_images():
 
     remove_test_images()
 
+    mock_env.stop()
 
 def remove_test_images():
     """
